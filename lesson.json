@@ -1,0 +1,44 @@
+[
+  {
+    "day": 1,
+    "topic": "Introduction to Arrays",
+    "content": "Arrays in JavaScript are ordered collections of elements. They allow storing multiple values under a single variable. You can create an array using square brackets. Example: let arr = [1, 2, 3];",
+    "practice_que": "https://www.geeksforgeeks.org/introduction-to-arrays/"
+  },
+  {
+    "day": 2,
+    "topic": "Accessing and Modifying Elements",
+    "content": "You can access elements using their index (starting from 0). Use arr[index] to get or set values. Example: arr[0] = 10;",
+    "practice_que": "https://leetcode.com/problems/build-array-from-permutation/"
+  },
+  {
+    "day": 3,
+    "topic": "Array Methods: Push and Pop",
+    "content": "`push()` adds elements to the end of the array, while `pop()` removes the last element. Example: arr.push(4); arr.pop();",
+    "practice_que": "Add a number to array, remove last number, and return the array."
+  },
+  {
+    "day": 4,
+    "topic": "Array Methods: Shift and Unshift",
+    "content": "`unshift()` adds elements to the beginning, `shift()` removes the first element. Useful for queue-based structures.",
+    "practice_que": "https://www.hackerrank.com/challenges/js10-arrays/problem"
+  },
+  {
+    "day": 5,
+    "topic": "Looping through Arrays",
+    "content": "You can loop using `for`, `forEach`, or `map`. Example: arr.forEach(item => console.log(item));",
+    "practice_que": "https://www.geeksforgeeks.org/loops-in-javascript/"
+  },
+  {
+    "day": 6,
+    "topic": "Slicing and Splicing",
+    "content": "`slice(start, end)` returns a portion of the array. `splice(start, deleteCount)` changes the array by removing/replacing items.",
+    "practice_que": "https://leetcode.com/problems/make-two-arrays-equal-by-reversing-sub-arrays/"
+  },
+  {
+    "day": 7,
+    "topic": "Searching and Filtering Arrays",
+    "content": "Use `includes()`, `indexOf()`, `filter()`, and `find()` to locate elements. Example: arr.filter(x => x > 5);",
+    "practice_que": "https://leetcode.com/problems/find-numbers-with-even-number-of-digits/"
+  }
+]

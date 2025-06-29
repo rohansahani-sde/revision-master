@@ -1,0 +1,536 @@
+[
+  {
+    "day": 1,
+    "topic": "Recursion Fundamentals",
+    "content": [
+      {
+        "concept": "Basic Recursion",
+        "about": "Understand the structure of a recursive function—base case and recursive call.",
+        "problem": {
+          "title": "Factorial Calculation",
+          "description": "Compute n! using recursion. For n ≥ 0, n! = n × (n−1)! with 0! = 1.",
+          "input": "An integer n.",
+          "output": "The value of n!.",
+          "examples": [
+            {
+              "input": "5",
+              "output": "120"
+            },
+            {
+              "input": "0",
+              "output": "1"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/factorial-trailing-zeroes/"
+      }
+    ]
+  },
+  {
+    "day": 2,
+    "topic": "Recursion Practice",
+    "content": [
+      {
+        "concept": "Fibonacci Sequence",
+        "about": "Generate nth Fibonacci number using simple recursion, exploring overlapping subproblems.",
+        "problem": {
+          "title": "Fibonacci Number",
+          "description": "Calculate the nth Fibonacci number where Fib(0)=0, Fib(1)=1, and Fib(n)=Fib(n−1)+Fib(n−2).",
+          "input": "An integer n.",
+          "output": "The nth Fibonacci number.",
+          "examples": [
+            { "input": "6", "output": "8" },
+            { "input": "0", "output": "0" }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/fibonacci-number/"
+      }
+    ]
+  },
+  {
+    "day": 3,
+    "topic": "Recursion with Multiple Branches",
+    "content": [
+      {
+        "concept": "Tree Recursion",
+        "about": "Learn recursion that branches multiple times per call (two or more recursive calls).",
+        "problem": {
+          "title": "Binary Tree Maximum Path Sum",
+          "description": "Given a binary tree, find the path with the maximum sum (may cross root). Use recursion to explore both child branches.",
+          "input": "Root node of a binary tree with integer values.",
+          "output": "Maximum path sum.",
+          "examples": [
+            {
+              "input": "[1,2,3]",
+              "output": "6"
+            },
+            {
+              "input": "[-10,9,20,null,null,15,7]",
+              "output": "42"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/binary-tree-maximum-path-sum/"
+      }
+    ]
+  },
+  {
+    "day": 4,
+    "topic": "Recursion & Backtracking Intro",
+    "content": [
+      {
+        "concept": "Backtracking Basics",
+        "about": "Explore constructing solutions incrementally and reverting steps when they fail constraints.",
+        "problem": {
+          "title": "Subset Sum",
+          "description": "Given an array, find all subsets. Use recursion to include/exclude each element.",
+          "input": "Array of distinct integers.",
+          "output": "List of all subsets.",
+          "examples": [
+            {
+              "input": "[1,2]",
+              "output": "[[],[1],[2],[1,2]]"
+            },
+            {
+              "input": "[3]",
+              "output": "[[],[3]]"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/subsets/"
+      }
+    ]
+  },
+  {
+    "day": 5,
+    "topic": "Permutation Generation",
+    "content": [
+      {
+        "concept": "Generating Permutations",
+        "about": "Generate all permutations by swapping and exploring backtracking branches.",
+        "problem": {
+          "title": "Permutations",
+          "description": "Given distinct integers, generate all possible permutations by choosing each element sequentially.",
+          "input": "Array of distinct integers.",
+          "output": "List of all permutations.",
+          "examples": [
+            {
+              "input": "[1,2,3]",
+              "output": "[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]"
+            },
+            {
+              "input": "[1,2]",
+              "output": "[[1,2],[2,1]]"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/permutations/"
+      }
+    ]
+  },
+  {
+    "day": 6,
+    "topic": "Combination Sum",
+    "content": [
+      {
+        "concept": "Sum Combinations",
+        "about": "Use backtracking to find combinations that sum to a target, with potentially repeated choices.",
+        "problem": {
+          "title": "Combination Sum",
+          "description": "Given candidates (no duplicates) and a target, find all unique combinations where numbers sum to target. Numbers may be reused.",
+          "input": "Array of integers and target value.",
+          "output": "List of combinations.",
+          "examples": [
+            {
+              "input": "candidates=[2,3,6,7], target=7",
+              "output": "[[7],[2,2,3]]"
+            },
+            {
+              "input": "candidates=[2,3,5], target=8",
+              "output": "[[2,2,2,2],[2,3,3],[3,5]]"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/combination-sum/"
+      }
+    ]
+  },
+  {
+    "day": 7,
+    "topic": "Permutations II & Handling Duplicates",
+    "content": [
+      {
+        "concept": "Permutations with Duplicates",
+        "about": "Generate unique permutations from arrays that may contain duplicates, avoiding redundant branches.",
+        "problem": {
+          "title": "Permutations II",
+          "description": "Given a list that may contain duplicates, return all unique permutations (skip duplicates by sorting and checking).",
+          "input": "Array of integers (may contain duplicates).",
+          "output": "List of unique permutations.",
+          "examples": [
+            {
+              "input": "[1,1,2]",
+              "output": "[[1,1,2],[1,2,1],[2,1,1]]"
+            },
+            {
+              "input": "[2,2,1]",
+              "output": "[[1,2,2],[2,1,2],[2,2,1]]"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/permutations-ii/"
+      }
+    ]
+  },
+  {
+    "day": 8,
+    "topic": "Combination II & Constraints",
+    "content": [
+      {
+        "concept": "Unique Combinations",
+        "about": "Find combinations summing to a target with each number used once—handle duplicates carefully.",
+        "problem": {
+          "title": "Combination Sum II",
+          "description": "Given candidate numbers (may contain duplicates) and a target, return unique combinations where each number can be used at most once.",
+          "input": "Array of integers and a target.",
+          "output": "List of unique combinations.",
+          "examples": [
+            {
+              "input": "[10,1,2,7,6,1,5], target=8",
+              "output": "[[1,1,6],[1,2,5],[1,7],[2,6]]"
+            },
+            {
+              "input": "[2,5,2,1,2], target=5",
+              "output": "[[1,2,2],[5]]"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/combination-sum-ii/"
+      }
+    ]
+  },
+  {
+    "day": 9,
+    "topic": "Subset with Constraint",
+    "content": [
+      {
+        "concept": "Target Subsets",
+        "about": "Find subsets that sum exactly to a target, using backtracking and pruning.",
+        "problem": {
+          "title": "Target Sum Subsets",
+          "description": "Given array and target, find one subset summing exactly to target. Return yes/no or one valid subset.",
+          "input": "Array of positive integers and target.",
+          "output": "Any one subset or boolean indication.",
+          "examples": [
+            {
+              "input": "[3,34,4,12,5,2], target=9",
+              "output": "[4,5]"
+            },
+            {
+              "input": "[3,34,4,12,5,2], target=30",
+              "output": "false"
+            }
+          ]
+        },
+        "practice_que": "https://www.geeksforgeeks.org/subset-sum-problem-dp-25/"
+      }
+    ]
+  },
+  {
+    "day": 10,
+    "topic": "Intro to Dynamic Programming",
+    "content": [
+      {
+        "concept": "Memoized Recursion",
+        "about": "Learn top‑down DP by adding memo to recursion, avoiding recomputation.",
+        "problem": {
+          "title": "Climbing Stairs",
+          "description": "Find the number of ways to reach step n by climbing 1 or 2 steps at a time—use memoized recursion.",
+          "input": "Integer n.",
+          "output": "Number of distinct ways.",
+          "examples": [
+            {
+              "input": "3",
+              "output": "3"
+            },
+            {
+              "input": "1",
+              "output": "1"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/climbing-stairs/"
+      }
+    ]
+  },
+  {
+    "day": 11,
+    "topic": "DP Tabulation",
+    "content": [
+      {
+        "concept": "Bottom‑up DP",
+        "about": "Convert memoized recursion to iterative bottom‑up table filling.",
+        "problem": {
+          "title": "House Robber",
+          "description": "Given non‑negative integers representing money at each house, maximize loot without robbing adjacent houses.",
+          "input": "Array of non‑negative integers.",
+          "output": "Maximum amount that can be robbed.",
+          "examples": [
+            {
+              "input": "[1,2,3,1]",
+              "output": "4"
+            },
+            {
+              "input": "[2,7,9,3,1]",
+              "output": "12"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/house-robber/"
+      }
+    ]
+  },
+  {
+    "day": 12,
+    "topic": "0/1 Knapsack",
+    "content": [
+      {
+        "concept": "Knapsack DP",
+        "about": "Use 2D DP table to solve weight/value maximization under capacity constraint.",
+        "problem": {
+          "title": "0/1 Knapsack",
+          "description": "Given weights and values of items and capacity, determine max value subset without exceeding capacity.",
+          "input": "Weights array, values array, capacity integer.",
+          "output": "Maximum total value.",
+          "examples": [
+            {
+              "input": "weights=[1,3,4], values=[15,50,60], capacity=8",
+              "output": "115"
+            },
+            {
+              "input": "weights=[2,3,5], values=[20,30,50], capacity=5",
+              "output": "50"
+            }
+          ]
+        },
+        "practice_que": "https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/"
+      }
+    ]
+  },
+  {
+    "day": 13,
+    "topic": "DP – Unbounded Knapsack",
+    "content": [
+      {
+        "concept": "Unbounded Knapsack",
+        "about": "Allow unlimited picks; use 1D DP to optimize total value.",
+        "problem": {
+          "title": "Unbounded Knapsack",
+          "description": "Given weights and values of items (unlimited supply) and capacity, maximize total value.",
+          "input": "Weights array, values array, capacity integer.",
+          "output": "Maximum total value.",
+          "examples": [
+            {
+              "input": "weights=[2,3,5], values=[15,20,50], capacity=7",
+              "output": "65"
+            },
+            {
+              "input": "weights=[1,3,4], values=[10,40,50], capacity=8",
+              "output": "100"
+            }
+          ]
+        },
+        "practice_que": "https://www.geeksforgeeks.org/unbounded-knapsack-repetition-items-allowed/"
+      }
+    ]
+  },
+  {
+    "day": 14,
+    "topic": "DP on Grids",
+    "content": [
+      {
+        "concept": "Grid Path Counting",
+        "about": "Count number of ways to reach bottom‑right from top‑left in a grid with obstacles using DP.",
+        "problem": {
+          "title": "Unique Paths II",
+          "description": "Given m×n grid with obstacles, count unique paths from top‑left to bottom‑right moving only right/down.",
+          "input": "2D grid with 0 (free) and 1 (obstacle).",
+          "output": "Number of unique paths.",
+          "examples": [
+            {
+              "input": "[[0,0,0],[0,1,0],[0,0,0]]",
+              "output": "2"
+            },
+            {
+              "input": "[[0,1],[0,0]]",
+              "output": "1"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/unique-paths-ii/"
+      }
+    ]
+  },
+  {
+    "day": 15,
+    "topic": "DP – Longest Increasing Subseq",
+    "content": [
+      {
+        "concept": "LIS (n² DP)",
+        "about": "Compute longest increasing subsequence length via O(n²) DP.",
+        "problem": {
+          "title": "Longest Increasing Subsequence",
+          "description": "Given array of integers, return length of longest strictly increasing subsequence.",
+          "input": "Array of integers.",
+          "output": "Length of LIS.",
+          "examples": [
+            {
+              "input": "[10,9,2,5,3,7,101,18]",
+              "output": "4"
+            },
+            {
+              "input": "[0,1,0,3,2,3]",
+              "output": "4"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/longest-increasing-subsequence/"
+      }
+    ]
+  },
+  {
+    "day": 16,
+    "topic": "DP – Sequence Alignment",
+    "content": [
+      {
+        "concept": "Edit Distance",
+        "about": "Use DP to compute minimal operations (insert/delete/replace) to convert one string into another.",
+        "problem": {
+          "title": "Edit Distance",
+          "description": "Given two strings, find minimum number of insert, delete or substitute operations to convert one to the other.",
+          "input": "Two strings word1 and word2.",
+          "output": "Minimum edit distance.",
+          "examples": [
+            {
+              "input": "horse, ros",
+              "output": "3"
+            },
+            {
+              "input": "intention, execution",
+              "output": "5"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/edit-distance/"
+      }
+    ]
+  },
+  {
+    "day": 17,
+    "topic": "DP – Bitmasking + Bit DP",
+    "content": [
+      {
+        "concept": "Bitmask DP",
+        "about": "Use bitmasks to represent subsets for exponential states with DP, e.g. traveling salesman subset.",
+        "problem": {
+          "title": "Bitmask Traveling Salesman (TSP)",
+          "description": "Given n ≤ 15 cities and distance matrix, compute shortest path visiting all cities exactly once and returning to start.",
+          "input": "n and n×n distance matrix.",
+          "output": "Minimum tour cost.",
+          "examples": [
+            {
+              "input": "4, [[0,10,15,20],[10,0,35,25],[15,35,0,30],[20,25,30,0]]",
+              "output": "80"
+            },
+            {
+              "input": "3, [[0,1,2],[1,0,4],[2,4,0]]",
+              "output": "7"
+            }
+          ]
+        },
+        "practice_que": "https://www.geeksforgeeks.org/traveling-salesman-problem-set-1/" 
+      }
+    ]
+  },
+  {
+    "day": 18,
+    "topic": "DP – Partitioning",
+    "content": [
+      {
+        "concept": "Partition Equal Subset Sum",
+        "about": "Decide if an array can be partitioned into two subsets with equal sum using subset‑sum DP.",
+        "problem": {
+          "title": "Partition Equal Subset Sum",
+          "description": "Given non‑negative integers, determine if can partition into two subsets with equal sum.",
+          "input": "Array of non‑negative integers.",
+          "output": "Boolean true/false.",
+          "examples": [
+            {
+              "input": "[1,5,11,5]",
+              "output": "true"
+            },
+            {
+              "input": "[1,2,3,5]",
+              "output": "false"
+            }
+          ]
+        },
+        "practice_que": "https://leetcode.com/problems/partition-equal-subset-sum/"
+      }
+    ]
+  },
+  {
+    "day": 19,
+    "topic": "DP – Weighted Interval Scheduling",
+    "content": [
+      {
+        "concept": "Weighted Interval Scheduling",
+        "about": "Select maximum‑weight set of non‑overlapping intervals using DP and binary search for predecessor.",
+        "problem": {
+          "title": "Weighted Interval Scheduling",
+          "description": "Given jobs with start, end, and weight, find max weight subset of mutually non‑overlapping jobs.",
+          "input": "List of jobs (start, end, weight).",
+          "output": "Maximum total weight.",
+          "examples": [
+            {
+              "input": "[[1,2,50],[3,5,20],[6,19,100],[2,100,200]]",
+              "output": "250"
+            },
+            {
+              "input": "[[1,3,5],[2,5,6],[4,6,5]]",
+              "output": "11"
+            }
+          ]
+        },
+        "practice_que": "https://www.geeksforgeeks.org/weighted-job-scheduling/" 
+      }
+    ]
+  },
+  {
+    "day": 20,
+    "topic": "Advanced: Meet-in-the-Middle",
+    "content": [
+      {
+        "concept": "Meet‑in‑the‑Middle",
+        "about": "Split problem into halves, compute each half by brute force, then combine efficiently via sorting or hashing.",
+        "problem": {
+          "title": "Meet‑in‑the‑Middle Subset Sum",
+          "description": "Given up to 40 numbers, decide if a subset sums to target by splitting list into two halves, enumerating both, and matching sums.",
+          "input": "Array of integers (n ≤ 40) and target.",
+          "output": "Boolean yes/no.",
+          "examples": [
+            {
+              "input": "[3,34,4,12,5,2,7,8], target=30",
+              "output": "true"
+            },
+            {
+              "input": "[1,2,3,4,5,6,7,8], target=50",
+              "output": "false"
+            }
+          ]
+        },
+        "practice_que": "https://en.wikipedia.org/wiki/Subset_sum_problem#Meet-in-the-middle"
+      }
+    ]
+  }
+]
