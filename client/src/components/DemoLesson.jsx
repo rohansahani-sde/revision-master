@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 // import jsPDF from 'jspdf';
 import html2pdf from "html2pdf.js";
 import LessonContent from './LessonContent';
+import { Link } from 'react-router-dom';
 // import html2canvas from 'html2canvas';
 
 
@@ -25,29 +26,52 @@ const DemoLesson = () => {
       return;
     }
 
+//     const prompt = `
+// Create a ${days}-day JSON lesson plan for the topic ${topic} at an intermediate level. 
+
+// Each day should include:
+// - "day": The day number (1–${days})
+// - "topic": The main ${topic} concept covered
+// - "content": An ${topic} of one or more objects per concept, each including:
+//   - "concept": Title of the concept or algorithm 
+//   - "about": Short explanation (2–4 lines) of the concept 
+//   - "problem": An object with the following structure:
+//     - "title": Problem title
+//     - "description": A coding problem description like those on LeetCode (150–200 words max)
+//     - "input": Description of input format
+//     - "output": Description of output format
+//     - "examples": Array of input-output pairs (minimum 2)
+//   - "practice_que": A link to a relevant LeetCode/GeeksforGeeks problem or prompt
+
+// Ensure:
+// - Concepts follow a logical progression
+// - Examples are language-agnostic
+// - Output is a valid JSON array of ${days} objects
+// `;
+
     const prompt = `
-Create a ${days}-day JSON lesson plan for the topic ${topic} at an intermediate level. 
+    Create a ${days}-day JSON lesson plan for the topic "${topic}" at a intermediate  level.
 
 Each day should include:
 - "day": The day number (1–${days})
-- "topic": The main ${topic} concept covered
-- "content": An ${topic} of one or more objects per concept, each including:
-  - "concept": Title of the concept or algorithm 
-  - "about": Short explanation (2–4 lines) of the concept 
+- "topic": The main concept covered that day
+- "content": An array of one or more objects per concept, each including:
+  - "concept": Title of the subtopic or algorithm (e.g., "Two Pointer Technique")
+  - "about": A short explanation (1–2 lines) of the concept
   - "problem": An object with the following structure:
     - "title": Problem title
-    - "description": A coding problem description like those on LeetCode (150–200 words max)
-    - "input": Description of input format
-    - "output": Description of output format
-    - "examples": Array of input-output pairs (minimum 2)
-  - "practice_que": A link to a relevant LeetCode/GeeksforGeeks problem or prompt
+    - "description": A concise coding problem description (max 200 words)
+    - "input": Input format description
+    - "output": Output format description
+    - "examples": Minimum 2 input-output examples in a language-agnostic format
+  - "practice_que": A relevant problem link from LeetCode, GeeksforGeeks, or similar
 
-Ensure:
-- Concepts follow a logical progression
-- Examples are language-agnostic
-- Output is a valid JSON array of ${days} objects
-`;
+Requirements:
+- Ensure the concepts follow a logical learning progression suitable for a intermediate learner
+- Use simple, language-neutral examples (pseudocode or plain input/output)
+- Format the entire output as a **valid JSON array** with ${days} objects
 
+    `;
     try {
       const response = await axios.post("http://localhost:5000/generate", { prompt });
       const rawText = response.data.candidates?.[0]?.content?.parts?.[0]?.text || "";
@@ -168,20 +192,7 @@ const deleteHistoryItem = (indexToDelete) => {
   };
 
 
-//   const exportToPDF = () => {
-//   const input = document.getElementById('lesson-content');
 
-//   html2canvas(input, { scale: 2 }).then((canvas) => {
-//     const imgData = canvas.toDataURL('image/png');
-//     const pdf = new jsPDF('p', 'mm', 'a4');
-
-//     const imgWidth = 210; // A4 width in mm
-//     const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-//     pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-//     pdf.save(`LessonPlan_${new Date().getTime()}.pdf`);
-//   });
-// };
 const exportToPDF = () => {
   const element = document.getElementById("lesson-content");
 
@@ -212,6 +223,7 @@ const exportToPDF = () => {
   
 
   const lessonData = selectedIndex !== null ? history[selectedIndex]?.data || [] : items;
+  console.log(lessonData);
 
   return (
     <>
@@ -264,34 +276,39 @@ const exportToPDF = () => {
       </div>
 
       <div id="lesson-content" style={{ background: "#fff", color: "#000", padding: "20px" }}  className="mt-10">
-        {/* {lessonData?.map((dayObj, i) => (
-          <div key={i} style={{ border: "1px solid #ccc", margin: "10px", padding: "10px", pageBreakInside: "avoid" }}>
-            <h4>Day {dayObj.day}: {dayObj.topic}</h4>
-            {Array.isArray(dayObj.content) ? dayObj.content.map((contentItem, j) => (
-              <div key={j}>
-                <strong>Concept:</strong> {contentItem.concept}<br />
-                <em>About:</em> {contentItem.about}<br />
-                <p><strong>Problem:</strong> {contentItem.problem.title}</p>
-                <p>{contentItem.problem.description}</p>
-                <pre>Input: {contentItem.problem.input}</pre>
-                <pre>Output: {contentItem.problem.output}</pre>
-                <pre>
-                  Examples:
-                  {contentItem.problem.examples.map((ex, k) => (
-                    <div key={k}>{JSON.stringify(ex)}</div>
-                  ))}
-                </pre>
-                <a href={contentItem.practice_que} target="_blank" rel="noreferrer">
-                  Practice Link
-                </a>
-                <hr />
-              </div>
-            )) : <p>No content found.</p>}
-          </div>
-        ))} */}
-        {lessonData.length > 0 && <LessonContent lessonData={lessonData} />}
+        {/* {lessonData.length > 0 && <LessonContent lessonData={lessonData} />} */}
+        {
+            // lessonData.map((lesson, idx) =>(
+            //     <Link to={`/learn/${lesson.day}`} 
+            //     key={idx}
+            //     state={{lesson}}
+            //     >
+            //     <div key={idx} className='flex border-t bg-amber-400 p-4'> 
+            //     <h1>{lesson.day}</h1>
+            //     <h1>{lesson.topic}</h1>
+            //     </div>
+            //     </Link>
+            // ))
+        }
       </div>
 
+      <div>
+        <div className="p-6 bg-gray-100 min-h-screen">
+      <h1 className="text-3xl font-bold mb-6 text-center">Lesson Plan</h1>
+      {lessonData.map((lesson, index) => (
+        <Link to={`/learn/${lesson.day}`} 
+                key={index}
+                state={{lesson}}
+                >
+        <div key={index} className="mb-8 bg-white p-6 rounded-2xl shadow">
+          <h2 className="text-xl font-semibold text-blue-600 mb-2">
+            Day {lesson.day}: {lesson.topic}
+          </h2>
+        </div>
+        </Link>
+      ))}
+    </div>
+      </div>
       
 
       

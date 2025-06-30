@@ -10,6 +10,7 @@ import { Route, Router, Routes } from 'react-router-dom'
 import Details from './pages/Details'
 import LessonForm from './demo/LessonForm'
 import LessonViewer from './demo/LessonViewer'
+import DemoLesson from './components/DemoLesson'
 
 function App() {
 
@@ -61,7 +62,8 @@ function App() {
     <>
     
       <Routes >
-        <Route path="/" element={ <Lesson /> } /> 
+        {/* <Route path="/" element={ <Lesson /> } />  */}
+        <Route path="/" element={ <DemoLesson /> } /> 
         <Route path="/learn/:id" element={ <Details /> } /> 
       </Routes>
       

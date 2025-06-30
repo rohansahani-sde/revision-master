@@ -11,11 +11,11 @@ import DemoLesson from './components/DemoLesson.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
      <BrowserRouter>
-      {/* <App /> */}
+      <App />
       {/* <CrudComponent /> */}
       {/* <CodeEditor /> */}
       {/* <Lesson /> */}
-      <DemoLesson />
+      {/* <DemoLesson /> */}
     </BrowserRouter>
   </StrictMode>,
 )

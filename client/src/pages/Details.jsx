@@ -1,71 +1,82 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { Link, useLocation } from 'react-router-dom'
+import { FaArrowLeft, FaHome } from "react-icons/fa";
 import CodeEditor from '../components/CodeEditor';
 
 
 const Details = () => {
     const location = useLocation()
-    const lesson = location.state.data
-    // console.log(lesson)
+    const lesson = location.state.lesson
+    // console.log("data :", lesson)
+    const data = location.state.lesson
+    console.log(data.day);
 
-    const example = lesson.content[0].problem.examples
+
+    const example = lesson.content
+    
     const content = lesson.content[0]
+    // console.log(content)
 
     
   return (
 
     <>
-    <main className='flex'>
+    <div className="p-6 bg-gray-100 min-h-screen">
+        <Link to={"/"} >
+        <h1 className='flex items-center'> <span><FaArrowLeft/></span>  Home <FaHome />  </h1>
+      {/* <h1 className="text-3xl font-bold mb-6 text-center">Lesson Details</h1> */}
+        </Link>
+      <h1 className="text-3xl font-bold mb-6 text-center">Lesson Details</h1>
+      {/* {data.map((dayItem, index) => ( */}
+        <div className="mb-8 bg-white p-6 rounded-2xl shadow">
+            {/* // key={index}  */}
+          <h2 className="text-xl font-semibold text-blue-600 mb-2">
+            Day {data.day}: {data.topic}
+          </h2>
 
-    <div className='w-1/2 bg-amber-500 min-h-screen' >
+          {data.content.map((item, idx) => (
+            <div key={idx} className="border-l-4 border-blue-500 pl-4 mb-6">
+              <h3 className="text-lg font-semibold">{item.concept}</h3>
+              <p className="text-gray-700 mb-2">{item.about}</p>
 
-    <div className='flex text-xl font-semibold gap-2'>
-        <h1>Day {lesson.day}:</h1>
-        <h1>{lesson.topic}</h1>
-    </div>
-    <div>
-        <h1 className='text-2xl font-bold'>Concept : {content.concept}</h1>
-        <h1>About: {content.about}</h1>
-        {/* problem */}
-        <h1>Que: {content.problem.title} :</h1>
-        <h1>{content.problem.description}</h1>
+              <div className="mb-2">
+                <h4 className="font-medium text-md">🧩 Problem: {item.problem.title}</h4>
+                <p className="text-sm text-gray-800 mb-1">{item.problem.description}</p>
 
-        <div className='mt-6'>
-            <h1>Input Format:</h1>
-            <h1>{content.problem.input}</h1>
-            <h1>Output Format:</h1>
-            <h1>{content.problem.output}</h1>
-        </div>
-        <div>
-            {example.map((example, idx) =>(
-                <div key={idx}>
-                    <h1>Example : {idx+1}</h1>
-                    <pre>Input: {example.input}</pre>
-                    <pre>Output: {example.output}</pre>
+                <p className="text-sm text-gray-700">
+                  <strong>Input:</strong> {item.problem.input}
+                </p>
+                <p className="text-sm text-gray-700">
+                  <strong>Output:</strong> {item.problem.output}
+                </p>
+
+                <div className="mt-2 text-sm text-gray-800">
+                  <strong>Examples:</strong>
+                  <ul className="list-disc ml-6">
+                    {item.problem.examples.map((ex, i) => (
+                      <li key={i}>
+                        <strong>Input:</strong> {ex.input} | <strong>Output:</strong> {ex.output}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-            ))}
+              </div>
+
+              <a
+                href={item.practice_que}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-2 text-blue-500 hover:underline"
+              >
+                🔗 Practice Question
+              </a>
+            </div>
+          ))}
         </div>
-
-        
+    
     </div>
-
-    <div>
-       <a href={content.practice_que} target='_blank' >
-        <button className=' flex items-center gap-x-2 bg-amber-300 hover:bg-amber-400 p-2 rounded-lg'>
-         practice <FaExternalLinkAlt />
-        </button>
-        </a> 
-    </div>
-    </div>
-    <div className='w-1/2 min-h-screen'>
-    <CodeEditor />
-
-    </div>
-
-    </main>
-
     </>
+
 
   )
 }
