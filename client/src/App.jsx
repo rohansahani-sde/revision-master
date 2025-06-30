@@ -1,5 +1,6 @@
 
 
+
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -63,9 +64,6 @@ function App() {
         <Route path="/" element={ <Lesson /> } /> 
         <Route path="/learn/:id" element={ <Details /> } /> 
       </Routes>
-    
-        {/* <Lesson /> */}
-      {/* demo */}
       
 
     </>

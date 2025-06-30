@@ -1,41 +1,44 @@
-// server.js
-import express from "express";
-import cors from "cors";
-import fetch from "node-fetch";
-import dotenv from "dotenv";
+// server.js or index.js
+const express = require("express");
+const axios = require("axios");
+const cors = require("cors");
+require("dotenv").config();
 
-dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const RAPID_API_KEY = process.env.RAPID_API_KEY; // Place in .env
+// Use v1beta and correct model name for Gemini 2.0 Flash
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-app.post("/api/generate-lesson", async (req, res) => {
-  const { prompt } = req.body;
-
+app.post("/generate", async (req, res) => {
   try {
-    const apiRes = await fetch("https://generate-text-ai-gemini.p.rapidapi.com/api/v1/text", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-rapidapi-host": "generate-text-ai-gemini.p.rapidapi.com",
-        "x-rapidapi-key": RAPID_API_KEY,
+    const prompt = req.body.prompt;
+
+    const response = await axios.post(
+      GEMINI_API_URL,
+      {
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: prompt }]
+          }
+        ]
       },
-      body: JSON.stringify({ prompt }),
-    });
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
 
-    const data = await apiRes.json();
-    console.log("RapidAPI status:", apiRes.status);
-    console.log("RapidAPI response:", data);
-
-    res.status(apiRes.status).json(data);
+    res.json(response.data);
   } catch (err) {
-    console.error("API request failed:", err);
-    res.status(500).json({ error: "Failed to connect to Gemini API" });
+    console.error("Error calling Gemini API:", err.response?.data || err.message);
+    res.status(500).json({ error: err.toString() });
   }
 });
 
-app.listen(3001, () => {
-  console.log("🚀 Server running on http://localhost:3001");
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`✅ Server running on http://localhost:${PORT}`));
