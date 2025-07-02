@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import html2pdf from "html2pdf.js";
 import LessonContent from './LessonContent';
 import { Link } from 'react-router-dom';
+import Loading from './Loading';
 // import html2canvas from 'html2canvas';
 
 
@@ -13,6 +14,7 @@ const DemoLesson = () => {
   const [items, setItems] = useState([]);
   const [history, setHistory] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -26,28 +28,6 @@ const DemoLesson = () => {
       return;
     }
 
-//     const prompt = `
-// Create a ${days}-day JSON lesson plan for the topic ${topic} at an intermediate level. 
-
-// Each day should include:
-// - "day": The day number (1–${days})
-// - "topic": The main ${topic} concept covered
-// - "content": An ${topic} of one or more objects per concept, each including:
-//   - "concept": Title of the concept or algorithm 
-//   - "about": Short explanation (2–4 lines) of the concept 
-//   - "problem": An object with the following structure:
-//     - "title": Problem title
-//     - "description": A coding problem description like those on LeetCode (150–200 words max)
-//     - "input": Description of input format
-//     - "output": Description of output format
-//     - "examples": Array of input-output pairs (minimum 2)
-//   - "practice_que": A link to a relevant LeetCode/GeeksforGeeks problem or prompt
-
-// Ensure:
-// - Concepts follow a logical progression
-// - Examples are language-agnostic
-// - Output is a valid JSON array of ${days} objects
-// `;
 
     const prompt = `
     Create a ${days}-day JSON lesson plan for the topic "${topic}" at a intermediate  level.
@@ -72,6 +52,10 @@ Requirements:
 - Format the entire output as a **valid JSON array** with ${days} objects
 
     `;
+
+
+    setLoading(true);
+    
     try {
       const response = await axios.post("http://localhost:5000/generate", { prompt });
       const rawText = response.data.candidates?.[0]?.content?.parts?.[0]?.text || "";
@@ -115,6 +99,8 @@ Requirements:
       setSelectedIndex(null);
     } catch (error) {
       console.error("Error fetching lesson plan:", error);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -134,29 +120,6 @@ useEffect(() => {
 }, []);
 
 
-//   const deleteHistoryItem = (indexToDelete) => {
-//     setHistory(prev => prev.filter((_, index) => index !== indexToDelete));
-//     if (selectedIndex === indexToDelete) {
-//       setSelectedIndex(null);
-//     }
-//   };
-
-// const deleteHistoryItem = (indexToDelete) => {
-//   const updatedHistory = history.filter((_, index) => index !== indexToDelete);
-//   setHistory(updatedHistory);
-//   localStorage.setItem("lessonHistory", JSON.stringify(updatedHistory));
-
-//   if (selectedIndex === indexToDelete) {
-//     // If you're deleting the one currently being viewed
-//     setSelectedIndex(null);
-//     const latest = localStorage.getItem("latestLesson");
-//     setItems(latest ? JSON.parse(latest) : []);
-//   } else if (selectedIndex !== null && indexToDelete < selectedIndex) {
-//     // If you're deleting an item before the currently selected one,
-//     // shift selectedIndex back since history array shrinks
-//     setSelectedIndex(selectedIndex - 1);
-//   }
-// };
 const deleteHistoryItem = (indexToDelete) => {
   const updatedHistory = history.filter((_, index) => index !== indexToDelete);
   setHistory(updatedHistory);
@@ -227,6 +190,7 @@ const exportToPDF = () => {
 
   return (
     <>
+    <nav className='bg-[#819895]'>
       <div>
         <h3>Generate Lesson Plan</h3>
         <input
@@ -246,7 +210,8 @@ const exportToPDF = () => {
         <button onClick={fetchLessonPlan}>Generate</button>
       </div>
 
-      {history.length > 0 && (
+      <div>
+        {history.length > 0 && (
         <div style={{ marginTop: "20px" }}>
           <h4>History</h4>
           {history.map((entry, index) => (
@@ -266,16 +231,21 @@ const exportToPDF = () => {
             View Latest
           </button>
         </div>
-      )}
-      <div>
-        {lessonData.length > 0 && (
-  <button onClick={exportToPDF} style={{ marginTop: "20px", background: "#4CAF50", color: "#fff", padding: "8px 12px" }}>
-    💾 Export to PDF
-  </button>
-)}
+        )}
       </div>
 
-      <div id="lesson-content" style={{ background: "#fff", color: "#000", padding: "20px" }}  className="mt-10">
+      
+      <div>
+        {lessonData.length > 0 && (
+          <button onClick={exportToPDF} style={{ marginTop: "20px", background: "#4CAF50", color: "#fff", padding: "8px 12px" }}>
+            💾 Export to PDF
+          </button>
+        )}
+      </div>
+
+    </nav>
+
+      {/* <div id="lesson-content" style={{ background: "#fff", color: "#000", padding: "20px" }}  className="mt-10"> */}
         {/* {lessonData.length > 0 && <LessonContent lessonData={lessonData} />} */}
         {
             // lessonData.map((lesson, idx) =>(
@@ -290,12 +260,13 @@ const exportToPDF = () => {
             //     </Link>
             // ))
         }
-      </div>
+      {/* </div> */}
 
       <div>
         <div className="p-6 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-center">Lesson Plan</h1>
-      {lessonData.map((lesson, index) => (
+      {loading ? <><Loading /></> :
+      lessonData.map((lesson, index) => (
         <Link to={`/learn/${lesson.day}`} 
                 key={index}
                 state={{lesson}}
@@ -306,7 +277,8 @@ const exportToPDF = () => {
           </h2>
         </div>
         </Link>
-      ))}
+      ))
+       }
     </div>
       </div>
       

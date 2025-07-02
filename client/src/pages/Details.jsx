@@ -73,8 +73,8 @@ const Details = () => {
             </div>
           ))}
         </div>
-    
     </div>
+        <CodeEditor />
     </>
 
 
