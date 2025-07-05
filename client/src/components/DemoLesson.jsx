@@ -7,7 +7,8 @@ import LessonContent from './LessonContent';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 // import html2canvas from 'html2canvas';
-
+import logo from '/logo.png';
+import { MdDelete } from "react-icons/md";
 
 const DemoLesson = () => {
   const [form, setForm] = useState({ days: "", topic: "" });
@@ -185,102 +186,216 @@ const exportToPDF = () => {
   
   
 
-  const lessonData = selectedIndex !== null ? history[selectedIndex]?.data || [] : items;
-  console.log(lessonData);
+  // const lessonData = selectedIndex !== null ? history[selectedIndex]?.data || [] : items;
+  // console.log(lessonData);
 
   return (
     <>
-    <nav className='bg-[#819895]'>
-      <div>
-        <h3>Generate Lesson Plan</h3>
-        <input
+  
+
+    
+
+{/* <nav class="bg-white border-gray-200 "> */}
+{/* navbar */}
+  {/* <div className="bg-[#99d1ca] py-5 flex items-center ">
+    <img src={logo} className=" h-32 w-36 " alt="Smart Revision Logo" />
+    
+    <div className='w-36 text-sm font-semibold '> 
+      <h1 className='flex justify-start text-[#4C4D4F]'>Where Revision</h1> 
+      <h1 className='flex justify-end text-[#F1BB18]'>Meets Intelligence</h1> 
+    </div>
+
+    <nav className=' w-3/4 flex flex-col justify-center items-center border'>
+      <div className=''>
+        <h3 className=' justify-center flex'>Generate Lesson Plan</h3>
+        <input className='p-1 border-b-2 border-black focus:outline-none'
           type="number"
           name="days"
           placeholder="Enter number of days"
           value={form.days}
           onChange={handleInputChange}
         />
-        <input
+        <input className='p-1 border-b-2 border-black focus:outline-none'
           type="text"
           name="topic"
           placeholder="Enter topic (e.g., Arrays)"
           value={form.topic}
           onChange={handleInputChange}
         />
-        <button onClick={fetchLessonPlan}>Generate</button>
+        <button className="bg-[#F1BB18] hover:bg-[#F1BB18] p-1 rounded-r"
+        onClick={fetchLessonPlan}>Generate</button>
       </div>
+    </nav>
+    
+  </div> */}
 
-      <div>
-        {history.length > 0 && (
-        <div style={{ marginTop: "20px" }}>
-          <h4>History</h4>
-          {history.map((entry, index) => (
-            <div id='topic' key={index} style={{ marginBottom: "5px" }}>
-              <button onClick={() => viewLesson(index)}>
-                {entry.topic} ({entry.days} days) - {entry.timestamp}
-              </button>
-              <button
-                onClick={() => deleteHistoryItem(index)}
-                style={{ marginLeft: "5px", color: "red" }}
-              >
-                Delete
-              </button>
-            </div>
-          ))}
-          <button onClick={viewLatest} style={{ marginTop: "10px" }}>
-            View Latest
-          </button>
-        </div>
-        )}
-      </div>
+  <div className="bg-[#99d1ca] py-6 px-4 flex flex-wrap items-center justify-between">
+  {/* Logo & Tagline */}
+  <div className="flex items-center gap-4">
+    <img src={logo} className="h-32 w-40 object-contain" alt="Smart Revision Logo" />
+    <div className="text-sm font-semibold leading-tight">
+      <h1 className="text-[#4C4D4F]">Where Revision</h1>
+      <h1 className="text-[#F1BB18] text-end">Meets Intelligence</h1>
+    </div>
+  </div>
 
-      
-      <div>
+  {/* Lesson Plan Generator */}
+  <nav className="flex-1 max-w-xl bg-white rounded-lg shadow-md px-6 py-4">
+    <h3 className="text-lg font-bold text-center text-[#4C4D4F] mb-4">Generate Lesson Plan</h3>
+
+    <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+      <input
+        className="flex-1 p-2 border-b-2 border-black focus:outline-none placeholder:text-gray-600"
+        type="number"
+        name="days"
+        placeholder="Enter number of days"
+        value={form.days}
+        onChange={handleInputChange}
+      />
+
+      <input
+        className="flex-1 p-2 border-b-2 border-black focus:outline-none placeholder:text-gray-600"
+        type="text"
+        name="topic"
+        placeholder="Enter topic (e.g., Arrays)"
+        value={form.topic}
+        onChange={handleInputChange}
+      />
+
+      <button
+        className="bg-[#F1BB18] text-black font-medium px-4 py-2 rounded hover:brightness-105 transition"
+        onClick={fetchLessonPlan}
+      >
+        Generate
+      </button>
+    </div>
+  </nav>
+
+  <nav className="flex-1 max-w-xl  rounded-lg shadow-md hover:shadow-[#d8be71] px-6 py-4 flex justify-between">
+    {/* <div className="flex-1  flex justify-end items-center gap-6 text-sm font-medium text-[#4C4D4F]"> */}
+    <a href="/" className="hover:underline">Home</a>
+    <a href="/report" className="hover:underline">Report</a>
+    <a href="/profile" className="hover:underline">Profile</a>
+    <a href="https://github.com/rohansahani-sde" target="_blank" rel="noopener noreferrer" className="hover:underline">
+      GitHub
+    </a>
+  {/* </div> */}
+    {/* <h3 className="text-lg font-bold text-center text-[#4C4D4F] mb-4">Generate Lesson Plan</h3> */}
+
+    {/* <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+      <input
+        className="flex-1 p-2 border-b-2 border-black focus:outline-none placeholder:text-gray-600"
+        type="number"
+        name="days"
+        placeholder="Enter number of days"
+        value={form.days}
+        onChange={handleInputChange}
+      />
+
+      <input
+        className="flex-1 p-2 border-b-2 border-black focus:outline-none placeholder:text-gray-600"
+        type="text"
+        name="topic"
+        placeholder="Enter topic (e.g., Arrays)"
+        value={form.topic}
+        onChange={handleInputChange}
+      />
+
+      <button
+        className="bg-[#F1BB18] text-black font-medium px-4 py-2 rounded hover:brightness-105 transition"
+        onClick={fetchLessonPlan}
+      >
+        Generate
+      </button>
+    </div> */}
+  </nav>
+
+</div>
+
+
+      {/* PDF download */}
+      {/* <div>
         {lessonData.length > 0 && (
           <button onClick={exportToPDF} style={{ marginTop: "20px", background: "#4CAF50", color: "#fff", padding: "8px 12px" }}>
-            💾 Export to PDF
+          💾 Export to PDF
           </button>
         )}
-      </div>
+        </div> */}
 
-    </nav>
 
-      {/* <div id="lesson-content" style={{ background: "#fff", color: "#000", padding: "20px" }}  className="mt-10"> */}
-        {/* {lessonData.length > 0 && <LessonContent lessonData={lessonData} />} */}
-        {
-            // lessonData.map((lesson, idx) =>(
-            //     <Link to={`/learn/${lesson.day}`} 
-            //     key={idx}
-            //     state={{lesson}}
-            //     >
-            //     <div key={idx} className='flex border-t bg-amber-400 p-4'> 
-            //     <h1>{lesson.day}</h1>
-            //     <h1>{lesson.topic}</h1>
-            //     </div>
-            //     </Link>
-            // ))
-        }
-      {/* </div> */}
+    
+    
 
-      <div>
-        <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center">Lesson Plan</h1>
-      {loading ? <><Loading /></> :
-      lessonData.map((lesson, index) => (
-        <Link to={`/learn/${lesson.day}`} 
-                key={index}
-                state={{lesson}}
+        <div className=' bg-[#d8be71] pt-6 h-screen'>
+          {history.length > 0 && (
+          <div >
+          {/* // style={{ marginTop: "20px" }} */}
+            {/* <h4>History</h4> */}
+  
+            {
+              loading ?  <Loading />  : (
+  
+                history.map((entry, index) => (
+              //     <div id='topic' key={index} className='flex' >
+      
+              //   <Link to={`/learn/topic/${entry.topic}`} key={index} className='w-full'
+              //   state={{lessonData : entry.data}}
+              //   >
+              //     <div key={index} className="mb-8 w-full bg-white p-4 rounded-l-2xl shadow flex justify-between">
+              //       <h2 className="text-xl font-semibold text-blue-600 mb-2">
+              //         {entry.topic} ({entry.days} days) - {entry.timestamp}
+              //       </h2>
+              //     </div>
+              //   </Link>
+      
+              // {/* delete button */}
+              // <div className="mb-8  bg-white  p-4 rounded-r-2xl shadow">
+              //   <button className="text-xl font-semibold text-blue-600 mb-2"
+              //   onClick={() => deleteHistoryItem(index)}
+              //   >
+              //     Delete
+              //   </button>
+              // </div>
+              
+      
+              //     </div>
+            <div id="topic" key={index} className="flex items-center mb-4 shadow rounded-2xl overflow-hidden bg-white transition hover:shadow-lg">
+                {/* Lesson Link */}
+                <Link
+                to={`/learn/topic/${entry.topic}`}
+                state={{ lessonData: entry.data }}
+                className="flex-1 p-4 hover:bg-gray-50 transition duration-150"
                 >
-        <div key={index} className="mb-8 bg-white p-6 rounded-2xl shadow">
-          <h2 className="text-xl font-semibold text-blue-600 mb-2">
-            Day {lesson.day}: {lesson.topic}
-          </h2>
+                  <h2 className="text-lg md:text-xl font-semibold text-[#F1BB18] flex justify-center">
+                    {entry.topic} <span className="text-[#d8be71]">({entry.days} days)</span>
+                  </h2>
+                  <p className="text-sm text-gray-400 mt-1 flex justify-center">{entry.timestamp}</p>
+                </Link>
+                
+              {/* Delete Button */}
+              <div className="p-4 bg-gray-50 border-l flex items-center justify-center">
+                <button
+                onClick={() => deleteHistoryItem(index)}
+                className="text-red-600 hover:text-red-800 font-medium text-sm md:text-base flex items-center"
+                title="Delete lesson"
+                >
+                  <MdDelete />  Delete
+                </button>
+              </div>
+
+            </div>
+
+      
+                ))
+              )
+            }
+  
+            <button onClick={viewLatest} style={{ marginTop: "10px" }}>
+              View Latest
+            </button>
+          </div>
+          )}
         </div>
-        </Link>
-      ))
-       }
-    </div>
-      </div>
       
 
       

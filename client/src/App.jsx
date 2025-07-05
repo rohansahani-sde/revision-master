@@ -1,16 +1,17 @@
 
 
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import viteLogo from '/vite.svg'
 import './App.css'
 import Lesson from './pages/Lesson'
 import { Route, Router, Routes } from 'react-router-dom'
-import Details from './pages/Details'
-import LessonForm from './demo/LessonForm'
-import LessonViewer from './demo/LessonViewer'
 import DemoLesson from './components/DemoLesson'
+import Details1 from './pages/Details1'
+import Topics from './pages/Topics'
+import Details from './pages/Details'
+import Report from './pages/Report'
 
 function App() {
 
@@ -57,6 +58,22 @@ function App() {
   setLoading(false);
 };
 
+// notification 
+ useEffect(() => {
+    const reminders = JSON.parse(localStorage.getItem("reminders")) || [];
+    const today = new Date().toISOString().split("T")[0];
+
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+
+    reminders.forEach(reminder => {
+      if (reminder.status === "active" && reminder.remindOn === today) {
+        new Notification(`🔔 Reminder: Revise ${reminder.topic} (Day ${reminder.day})`);
+      }
+    });
+  }, []);
+
   
   return (
     <>
@@ -64,7 +81,11 @@ function App() {
       <Routes >
         {/* <Route path="/" element={ <Lesson /> } />  */}
         <Route path="/" element={ <DemoLesson /> } /> 
-        <Route path="/learn/:id" element={ <Details /> } /> 
+        {/* <Route path="/learn/:id" element={ <Details /> } />  */}
+        <Route path="/learn/:id" element={ <Details1 /> } /> 
+        <Route path="/learn/topic/:topic" element={ <Topics /> } /> 
+        <Route path="/report" element={ <Report /> } /> 
+
       </Routes>
       
 

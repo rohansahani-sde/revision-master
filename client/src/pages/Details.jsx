@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FaArrowLeft, FaHome } from "react-icons/fa";
 import CodeEditor from '../components/CodeEditor';
+import ReminderSystem from '../components/ReminderSystem';
 
 
 const Details = () => {
@@ -21,14 +22,16 @@ const Details = () => {
   return (
 
     <>
-    <div className="p-6 bg-gray-100 min-h-screen">
         <Link to={"/"} >
         <h1 className='flex items-center'> <span><FaArrowLeft/></span>  Home <FaHome />  </h1>
       {/* <h1 className="text-3xl font-bold mb-6 text-center">Lesson Details</h1> */}
         </Link>
       <h1 className="text-3xl font-bold mb-6 text-center">Lesson Details</h1>
+
+    <div className="bg-gray-100 w-full min-h-screen flex">
       {/* {data.map((dayItem, index) => ( */}
-        <div className="mb-8 bg-white p-6 rounded-2xl shadow">
+      {/* <div className='flex bg-red-400'> */}
+        <div className="mb-8 w-[40%] bg-white p-6 rounded-2xl shadow">
             {/* // key={index}  */}
           <h2 className="text-xl font-semibold text-blue-600 mb-2">
             Day {data.day}: {data.topic}
@@ -73,8 +76,11 @@ const Details = () => {
             </div>
           ))}
         </div>
-    </div>
+      {/* </div> */}
+        <div className=" w-[60%]">
         <CodeEditor />
+        </div>
+    </div>
     </>
 
 

@@ -34,7 +34,7 @@ int main() {
 function CodeEditor() {
   const [language, setLanguage] = useState("java");
   const [code, setCode] = useState(languageOptions["java"].defaultCode);
-  const [output, setOutput] = useState("");
+  const [output, setOutput] = useState("Smart Revision");
 
   const handleLanguageChange = (e) => {
     const selectedLang = e.target.value;
@@ -85,18 +85,18 @@ function CodeEditor() {
       </div>
 
       <div className='h-screen flex'>
-      <div className=" w-1/2 border rounded shadow h-1/2" >
+      {/* <div className=" " > */}
         {/* <h1>{language}:</h1> */}
         <Editor
           height="100%"
-          // width="50%"
+          width="60%"
           language={language}
           value={code}
           theme="vs-dark"
           onChange={(value) => setCode(value)}
         />
-      </div>
-      <div className='text-gray-100 pl-4 border rounded-r-xl shadow w-1/2 h-1/2 bg-[#222433]' style={{ whiteSpace: "pre-wrap" }}>
+      {/* </div> */}
+      <div className='text-gray-100 pl-4 border rounded-r-xl shadow w-[40%] h-full bg-[#222433]' style={{ whiteSpace: "pre-wrap" }}>
         <strong className='text-gray-500' >Output:</strong>
         <div>{output}</div>
       </div>
