@@ -1,55 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaArrowLeft, FaHome } from "react-icons/fa";
-import CodeEditor from '../components/CodeEditor';
+import { ArrowLeft, Home, BellRing, BellOff, Code2, Link as LinkIcon, BookOpen } from 'lucide-react';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Details1 = () => {
   const location = useLocation();
   const lesson = location.state.lesson;
   const data = location.state.lesson;
-  const example = lesson.content;
-  const content = lesson.content[0];
 
+  const [activeTab, setActiveTab] = useState(0);
   const [hasReminder, setHasReminder] = useState(false);
-
-//   check for reminder
-// Check if a reminder already exists for this lesson
-useEffect(() => {
-  const saved = JSON.parse(localStorage.getItem('reminders')) || [];
-  const found = saved.find(
-    r => r.day === lesson.day && r.topic === lesson.topic && r.status === 'active'
-  );
-  setHasReminder(!!found);
-}, []);
-
-// clear reminder
-const clearReminder = () => {
-  const saved = JSON.parse(localStorage.getItem('reminders')) || [];
-  const filtered = saved.filter(
-    r => !(r.day === lesson.day && r.topic === lesson.topic)
-  );
-  setReminders(filtered);
-  localStorage.setItem('reminders', JSON.stringify(filtered));
-  setHasReminder(false);
-  alert('Reminder cleared!');
-};
-
-
-  // 🟡 Reminder states
   const [reminders, setReminders] = useState(() => {
     const saved = localStorage.getItem('reminders');
     return saved ? JSON.parse(saved) : [];
   });
-
   const [remindAfterDays, setRemindAfterDays] = useState(1);
 
-  // 🟢 Save reminder to localStorage
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem('reminders')) || [];
+    const found = saved.find(
+      r => r.day === lesson.day && r.topic === lesson.topic && r.status === 'active'
+    );
+    setHasReminder(!!found);
+  }, [lesson, reminders]);
+
+  const clearReminder = () => {
+    const saved = JSON.parse(localStorage.getItem('reminders')) || [];
+    const filtered = saved.filter(
+      r => !(r.day === lesson.day && r.topic === lesson.topic)
+    );
+    setReminders(filtered);
+    localStorage.setItem('reminders', JSON.stringify(filtered));
+    setHasReminder(false);
+    toast.success('Reminder cleared!');
+  };
+
   const handleSetReminder = () => {
     const today = new Date();
     const remindDate = new Date(today);
     remindDate.setDate(today.getDate() + parseInt(remindAfterDays));
-
-    // remindDate.setDate(today.getDate());
 
     const newReminder = {
       id: Date.now(),
@@ -62,120 +51,169 @@ const clearReminder = () => {
     const updated = [...reminders, newReminder];
     setReminders(updated);
     localStorage.setItem('reminders', JSON.stringify(updated));
-    alert(`Reminder set for "${lesson.topic}" on ${newReminder.remindOn}`);
+    toast.success(`Reminder set for Day ${lesson.day} on ${newReminder.remindOn}`);
   };
 
-  // 🔔 Show notification if today's reminder matches
-  useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
-
-    reminders.forEach(reminder => {
-      if (reminder.status === 'active' && reminder.remindOn === today) {
-        if (Notification.permission === 'granted') {
-          new Notification(`🔔 Reminder: Revise ${reminder.topic} (Day ${reminder.day})`);
-        } else {
-          Notification.requestPermission().then(perm => {
-            if (perm === 'granted') {
-              new Notification(`🔔 Reminder: Revise ${reminder.topic} (Day ${reminder.day})`);
-            }
-          });
-        }
-      }
-    });
-  }, [reminders]);
-
   return (
-    <>
-      <div className="p-6 bg-gray-100 min-h-screen">
-        <Link to={"/"} >
-          <h1 className='flex items-center'> <span><FaArrowLeft /></span>  Home <FaHome />  </h1>
+    <div className="min-h-screen bg-gray-50 flex flex-col font-sans pb-12">
+      <Toaster position="top-center" />
+      
+      {/* Top Navbar */}
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-40 px-6 py-4 flex items-center justify-between shadow-sm">
+        <Link to="/" className="flex items-center gap-2 text-gray-600 hover:text-teal-600 font-semibold transition-colors">
+          <ArrowLeft className="w-5 h-5" />
+          <span>Dashboard</span>
         </Link>
+        <Link to="/" className="p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-teal-50 hover:text-teal-600 transition-colors">
+           <Home className="w-5 h-5" />
+        </Link>
+      </nav>
 
-        <h1 className="text-3xl font-bold mb-6 text-center">Lesson Details</h1>
-
-        <div className="mb-8 bg-white p-6 rounded-2xl shadow">
-          <h2 className="text-xl font-semibold text-blue-600 mb-2">
-            Day {data.day}: {data.topic}
-          </h2>
-
-          {data.content.map((item, idx) => (
-            <div key={idx} className="border-l-4 border-blue-500 pl-4 mb-6">
-              <h3 className="text-lg font-semibold">{item.concept}</h3>
-              <p className="text-gray-700 mb-2">{item.about}</p>
-
-              <div className="mb-2">
-                <h4 className="font-medium text-md">🧩 Problem: {item.problem.title}</h4>
-                <p className="text-sm text-gray-800 mb-1">{item.problem.description}</p>
-
-                <p className="text-sm text-gray-700">
-                  <strong>Input:</strong> {item.problem.input}
-                </p>
-                <p className="text-sm text-gray-700">
-                  <strong>Output:</strong> {item.problem.output}
-                </p>
-
-                <div className="mt-2 text-sm text-gray-800">
-                  <strong>Examples:</strong>
-                  <ul className="list-disc ml-6">
-                    {item.problem.examples.map((ex, i) => (
-                      <li key={i}>
-                        <strong>Input:</strong> {ex.input} | <strong>Output:</strong> {ex.output}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <a
-                href={item.practice_que}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block mt-2 text-blue-500 hover:underline"
-              >
-                🔗 Practice Question
-              </a>
-            </div>
-          ))}
-
-          {/* ✅ Reminder UI Section */}
-          <div className="mt-6 bg-gray-100 p-4 rounded-xl">
-            <h3 className="text-lg font-semibold mb-2">⏰ Set Reminder for this topic</h3>
-            <input
-              type="number"
-              min="1"
-              value={remindAfterDays}
-              onChange={(e) => setRemindAfterDays(e.target.value)}
-              className="border p-2 rounded w-64 mb-2"
-              placeholder="Enter days after which to remind"
-            />
-            <button
-              onClick={handleSetReminder}
-              className="ml-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-              Set Reminder
-            </button>
-
-          </div>
-
-          <div>
-
-            {hasReminder && (
-  <div className="mt-4">
-    <button
-      onClick={clearReminder}
-      className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-    >
-      Clear Reminder
-    </button>
-  </div>
-)}
-          </div>
-
+      <div className="max-w-4xl mx-auto w-full px-6 mt-8">
+        
+        {/* Lesson Header */}
+        <div className="bg-gradient-to-br from-[#1e293b] to-gray-800 rounded-3xl p-8 mb-8 text-white shadow-xl relative overflow-hidden">
+           <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3"></div>
+           <p className="text-teal-400 font-bold uppercase tracking-wider text-sm mb-2 flex items-center gap-2">
+             <BookOpen className="w-4 h-4" /> Day {data.day}
+           </p>
+           <h1 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight relative z-10">
+             {data.topic}
+           </h1>
         </div>
-      </div>
 
-      {/* <CodeEditor /> */}
-    </>
+        {/* Reminder Block */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className={`p-3 rounded-xl flex-shrink-0 ${hasReminder ? 'bg-teal-50 text-teal-600' : 'bg-amber-50 text-amber-500'}`}>
+              <BellRing className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-800">Study Reminder</h3>
+              <p className="text-sm text-gray-500">
+                {hasReminder ? 'You have an active reminder for this lesson.' : 'Never forget to revise this topic.'}
+              </p>
+            </div>
+          </div>
+
+          {!hasReminder ? (
+            <div className="flex items-center gap-2 w-full md:w-auto">
+              <input
+                type="number"
+                min="1"
+                value={remindAfterDays}
+                onChange={(e) => setRemindAfterDays(e.target.value)}
+                className="w-20 border border-gray-200 p-2 text-center rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 bg-gray-50"
+                placeholder="Days"
+              />
+              <span className="text-gray-500 text-sm font-medium mr-2">days later</span>
+              <button
+                onClick={handleSetReminder}
+                className="shrink-0 bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold px-4 py-2 rounded-xl transition-colors shadow-sm"
+              >
+                Set Reminder
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={clearReminder}
+              className="w-full md:w-auto shrink-0 flex items-center justify-center gap-2 bg-red-50 hover:bg-red-100 text-red-600 font-bold px-4 py-2 rounded-xl transition-colors"
+            >
+              <BellOff className="w-5 h-5" /> Clear Reminder
+            </button>
+          )}
+        </div>
+
+        {/* Concepts Tabs */}
+        {data.content.length > 1 && (
+          <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide mb-2">
+            {data.content.map((item, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveTab(idx)}
+                className={`shrink-0 px-6 py-3 rounded-xl font-bold transition-all ${
+                  activeTab === idx 
+                    ? 'bg-teal-600 text-white shadow-md shadow-teal-500/30' 
+                    : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:border-teal-300'
+                }`}
+              >
+                Topic {idx + 1}: {item.concept}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Active Concept Content */}
+        {(() => {
+          const item = data.content[activeTab];
+          if (!item) return null;
+          return (
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-shadow">
+               
+               <div className="bg-gray-50 border-b border-gray-100 p-6">
+                 <h3 className="text-xl font-bold text-gray-800 mb-2">{item.concept}</h3>
+                 <p className="text-gray-600 leading-relaxed font-medium">{item.about}</p>
+               </div>
+
+               <div className="p-6">
+                 <div className="flex items-start gap-3 mb-4">
+                   <div className="mt-1 shrink-0 p-2 bg-teal-50 rounded-lg text-teal-600">
+                     <Code2 className="w-5 h-5" />
+                   </div>
+                   <div>
+                     <h4 className="font-bold text-lg text-gray-800 tracking-tight">{item.problem.title}</h4>
+                     <p className="text-gray-600 mt-1">{item.problem.description}</p>
+                   </div>
+                 </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                   <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                     <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Input Format</span>
+                     <p className="text-gray-800 font-mono text-sm break-words">{item.problem.input}</p>
+                   </div>
+                   <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                     <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Output Format</span>
+                     <p className="text-gray-800 font-mono text-sm break-words">{item.problem.output}</p>
+                   </div>
+                 </div>
+
+                 <div className="mt-6 border border-gray-100 rounded-xl overflow-hidden">
+                   <div className="bg-gray-50 border-b border-gray-100 px-4 py-2">
+                     <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Examples</span>
+                   </div>
+                   <div className="divide-y divide-gray-100 bg-white">
+                      {item.problem.examples.map((ex, i) => (
+                        <div key={i} className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-mono">
+                          <div>
+                            <span className="text-gray-400 text-xs uppercase mb-1 block">Input:</span>
+                            <div className="text-gray-800 break-words whitespace-pre-wrap">{ex.input}</div>
+                          </div>
+                          <div>
+                            <span className="text-gray-400 text-xs uppercase mb-1 block">Output:</span>
+                            <div className="text-gray-800 text-teal-700 font-semibold break-words whitespace-pre-wrap">{ex.output}</div>
+                          </div>
+                        </div>
+                      ))}
+                   </div>
+                 </div>
+
+                 <a
+                    href={item.practice_que}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 inline-flex items-center gap-2 text-teal-600 hover:text-teal-800 font-bold transition-colors group/link"
+                  >
+                    <LinkIcon className="w-4 h-4 group-hover/link:-rotate-45 transition-transform" /> 
+                    Solve Practice Question
+                  </a>
+
+               </div>
+            </div>
+          );
+        })()}
+
+      </div>
+    </div>
   );
 };
 
