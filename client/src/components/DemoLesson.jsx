@@ -27,11 +27,13 @@ const DemoLesson = () => {
   };
 
   // Fetch History from DB
-  const fetchHistory = async () => {
+  const fetchHistory = async (activeToken) => {
+    const authToken = activeToken || token || localStorage.getItem('token');
+    if (!authToken) return;
     try {
       setDataLoading(true);
       const res = await axios.get('http://localhost:5000/api/lessons', {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${authToken}` }
       });
       // Map MongoDB _id to the items for deletion later
       const formattedHistory = res.data.map(item => ({
@@ -50,8 +52,12 @@ const DemoLesson = () => {
     }
   };
 
+  // Fetch on mount and whenever token changes.
+  // Also reads directly from localStorage as a safety net so plans
+  // always load even if the context token state hasn't propagated yet.
   useEffect(() => {
-    if (token) fetchHistory();
+    const activeToken = token || localStorage.getItem('token');
+    if (activeToken) fetchHistory(activeToken);
   }, [token]);
 
   const fetchLessonPlan = async () => {

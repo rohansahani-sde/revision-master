@@ -4,19 +4,23 @@ import axios from 'axios';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token'));
-  const [loading, setLoading] = useState(true);
+  // Read BOTH token and user synchronously on first render from localStorage
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  const [token, setToken] = useState(() => localStorage.getItem('token'));
+  // If a token already exists we're already authenticated — no async loading needed
+  const [loading, setLoading] = useState(false);
 
+  // Keep user in sync if token changes externally (e.g. storage event in another tab)
   useEffect(() => {
-    // Keep user state in sync with local storage token
     if (token) {
-      // In a more robust app, we'd verify the token with the backend here
-      // For now, we trust the stored user object
       const storedUser = localStorage.getItem('user');
       if (storedUser) setUser(JSON.parse(storedUser));
+    } else {
+      setUser(null);
     }
-    setLoading(false);
   }, [token]);
 
   const login = async (email, password) => {
