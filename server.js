@@ -14,7 +14,8 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect("mongodb+srv://sahanirohan313_db_user:b023sNY0G3hgVQbS@cluster0.z7fpop0.mongodb.net/smart_revision?appName=Cluster0")
+const url = process.env.MONGO_URI;
+mongoose.connect(url)
   .then(() => console.log("✅ MongoDB Connected Successfully"))
   .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
@@ -37,7 +38,7 @@ const requireAuth = (req, res, next) => {
 app.post("/api/auth/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    
+
     // Check if user exists
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ error: "User already exists" });
@@ -67,7 +68,7 @@ app.post("/api/auth/login", async (req, res) => {
     if (!validPassword) return res.status(400).json({ error: "Invalid email or password" });
 
     const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: "7d" });
-    
+
     res.json({ token, user: { id: user._id, name: user.name, email: user.email } });
   } catch (err) {
     res.status(500).json({ error: "Login failed" });
