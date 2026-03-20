@@ -133,7 +133,7 @@ Requirements:
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+    <div className="bg-gray-50 flex flex-col font-sans flex-1">
 
       {/* Fullscreen AI Loading Overlay */}
       {loading && (

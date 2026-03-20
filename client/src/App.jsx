@@ -8,6 +8,7 @@ import Details from './pages/Details'
 import Report from './pages/Report'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import Footer from './components/Footer'
 import { AuthContext } from './context/AuthContext'
 
 const PrivateRoute = ({ children }) => {
@@ -34,7 +35,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -45,7 +46,8 @@ function App() {
         <Route path="/learn/topic/:topic" element={<PrivateRoute><Topics /></PrivateRoute>} /> 
         <Route path="/report" element={<PrivateRoute><Report /></PrivateRoute>} /> 
       </Routes>
-    </>
+      <Footer />
+    </div>
   )
 }
 
