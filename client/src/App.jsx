@@ -4,12 +4,14 @@ import { Route, Routes, Navigate } from 'react-router-dom'
 import DemoLesson from './components/DemoLesson'
 import Details1 from './pages/Details1'
 import Topics from './pages/Topics'
-import Details from './pages/Details'
+// import Details from './pages/Details'
 import Report from './pages/Report'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Footer from './components/Footer'
 import { AuthContext } from './context/AuthContext'
+import FlashCard from './components/FlashCard'
+import Layout from './components/Layout'
 
 
 const PrivateRoute = ({ children }) => {
@@ -36,20 +38,19 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
 
-        {/* Protected Routes */}
-        <Route path="/" element={<PrivateRoute><DemoLesson /></PrivateRoute>} />
-        <Route path="/learn/:id" element={<PrivateRoute><Details1 /></PrivateRoute>} />
-        <Route path="/learn/topic/:topic" element={<PrivateRoute><Topics /></PrivateRoute>} />
-        <Route path="/report" element={<PrivateRoute><Report /></PrivateRoute>} />
-        {/* <Route path="/CodeEditor" element={<PrivateRoute><CodeEditor /></PrivateRoute>} /> */}
-      </Routes>
-      <Footer />
-    </div>
+      {/* Protected Routes with shared Layout */}
+      <Route element={<PrivateRoute><Layout /></PrivateRoute>}>
+        <Route path="/" element={<DemoLesson />} />
+        <Route path="/flashcard" element={<FlashCard />} />
+        <Route path="/learn/:id" element={<Details1 />} />
+        <Route path="/learn/topic/:topic" element={<Topics />} />
+        <Route path="/report" element={<Report />} />
+      </Route>
+    </Routes>
   )
 }
 

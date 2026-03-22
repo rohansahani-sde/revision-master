@@ -3,14 +3,15 @@ import Lesson from '../models/Lesson.js'
 
 export const createLesson  = async (req, res) =>{
     try {
-        const { topic, days, data } = req.body;
-        const newLesson = new Lesson({
-          userId: req.user._id,
-          topic,
-          days,
-          data
-        });
-        const savedLesson = await newLesson.save();
+    const { topic, days, data, type } = req.body;
+    const newLesson = new Lesson({
+      userId: req.user._id,
+      topic,
+      days,
+      type: type || 'lesson',
+      data
+    });
+    const savedLesson = await newLesson.save();
         res.status(201).json(savedLesson);
       } catch (err) {
         res.status(500).json({ error: "Failed to save lesson plan" });
@@ -19,8 +20,11 @@ export const createLesson  = async (req, res) =>{
 
 export const getLesson = async (req, res) =>{
     try {
-        const lessons = await Lesson.find({ userId: req.user._id }).sort({ createdAt: -1 });
-        res.json(lessons);
+    const { type } = req.query;
+    const query = { userId: req.user._id };
+    if (type) query.type = type;
+    const lessons = await Lesson.find(query).sort({ createdAt: -1 });
+    res.json(lessons);
       } catch (err) {
         res.status(500).json({ error: "Failed to fetch lesson history" });
       }

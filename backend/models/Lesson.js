@@ -14,8 +14,13 @@ const lessonSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  type: {
+    type: String,
+    enum: ['lesson', 'flashcard'],
+    default: 'lesson'
+  },
   data: {
-    type: Array, // Full lesson JSON
+    type: mongoose.Schema.Types.Mixed, // Flexible for both lesson arrays and flashcard objects
     required: true
   }
 }, { timestamps: true });

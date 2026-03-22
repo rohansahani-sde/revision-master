@@ -1,16 +1,14 @@
 import axios from 'axios';
 import React, { useState, useEffect, useContext } from 'react';
 import html2pdf from "html2pdf.js";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Loading from './Loading';
-import logo from '/logo.png';
-import { MdDelete, MdLogout } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { AuthContext } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
 const DemoLesson = () => {
-  const { user, token, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const { token } = useContext(AuthContext);
 
   const [form, setForm] = useState({ days: "", topic: "" });
   const [history, setHistory] = useState([]);
@@ -21,18 +19,13 @@ const DemoLesson = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
   // Fetch History from DB
   const fetchHistory = async (activeToken) => {
     const authToken = activeToken || token || localStorage.getItem('token');
     if (!authToken) return;
     try {
       setDataLoading(true);
-      const res = await axios.get('http://localhost:5000/api/lessons', {
+      const res = await axios.get('http://localhost:5000/api/lessons?type=lesson', {
         headers: { Authorization: `Bearer ${authToken}` }
       });
       // Map MongoDB _id to the items for deletion later
@@ -58,6 +51,7 @@ const DemoLesson = () => {
   useEffect(() => {
     const activeToken = token || localStorage.getItem('token');
     if (activeToken) fetchHistory(activeToken);
+    
   }, [token]);
 
   const fetchLessonPlan = async () => {
@@ -108,6 +102,7 @@ Requirements:
       const saveRes = await axios.post('http://localhost:5000/api/lessons', {
         topic,
         days: Number(days),
+        type: 'lesson',
         data: parsedData
       }, {
         headers: { Authorization: `Bearer ${token}` }
@@ -120,7 +115,7 @@ Requirements:
         timestamp: new Date(saveRes.data.createdAt).toLocaleString(),
         data: saveRes.data.data
       };
-
+      
       setHistory([newLesson, ...history]);
       toast.success("Study plan generated successfully!");
       setForm({ days: "", topic: "" });
@@ -144,6 +139,7 @@ Requirements:
     }
   };
 
+  console.log(history[0])
   return (
     <div className="bg-gray-50 flex flex-col font-sans flex-1">
 
@@ -165,35 +161,7 @@ Requirements:
         </div>
       )}
 
-      {/* Premium Navbar */}
-      <nav className="glass sticky top-0 z-50 px-6 py-4 flex flex-wrap items-center justify-between shadow-sm">
-        <div className="flex items-center gap-4">
-          <img src={logo} className="h-16 w-auto object-contain drop-shadow-md" alt="Smart Revision Logo" />
-          <div className="hidden sm:block">
-            <h1 className="text-[#4C4D4F] font-bold text-lg leading-tight tracking-tight">Smart<span className="text-[#F1BB18]">Revision</span></h1>
-            <p className="text-xs text-gray-500 font-medium">Where Revision Meets Intelligence</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-6">
-          <Link to="/" className="text-gray-700 font-medium hover:text-[#F1BB18] transition-colors">Home</Link>
-          <Link to="/report" className="text-gray-700 font-medium hover:text-[#F1BB18] transition-colors">Report</Link>
-          <div className="h-8 w-px bg-gray-300"></div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-white border border-gray-200 shadow-sm pl-1.5 pr-4 py-1.5 rounded-full cursor-default hover:border-teal-300 transition-colors">
-              <div className="h-7 w-7 rounded-full bg-gradient-to-tr from-teal-500 to-[#F1BB18] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-inner">
-                {user?.name ? user.name.charAt(0).toUpperCase() : "S"}
-              </div>
-              <span className="text-sm font-bold text-gray-700 tracking-tight">
-                {user?.name || "Student"}
-              </span>
-            </div>
-            <button onClick={handleLogout} className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors group" title="Logout">
-              <MdLogout className="h-6 w-6 group-hover:scale-110 transition-transform" />
-            </button>
-          </div>
-        </div>
-      </nav>
+      {loading && <Loading />}
 
       {/* Hero Header & Generator */}
       <div className="relative overflow-hidden w-full bg-gradient-to-br from-[#99d1ca] to-teal-500 text-white flex flex-col items-center justify-center py-16 px-4">
