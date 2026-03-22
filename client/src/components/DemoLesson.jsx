@@ -91,7 +91,13 @@ Requirements:
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/generate", { prompt });
+      const authToken = token || localStorage.getItem("token");
+      const response = await axios.post("http://localhost:5000/generate",
+        { prompt }, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      });
       const rawText = response.data.candidates?.[0]?.content?.parts?.[0]?.text || "";
       const jsonStart = rawText.indexOf("[");
       const jsonEnd = rawText.lastIndexOf("]");

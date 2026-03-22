@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const lessonSchema = new mongoose.Schema({
   userId: {
@@ -20,4 +20,8 @@ const lessonSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Lesson', lessonSchema);
+
+const Lesson = mongoose.model("Lesson", lessonSchema);
+
+// ✅ Then export
+export default Lesson;

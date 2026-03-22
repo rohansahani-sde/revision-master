@@ -11,6 +11,7 @@ import Signup from './pages/Signup'
 import Footer from './components/Footer'
 import { AuthContext } from './context/AuthContext'
 
+
 const PrivateRoute = ({ children }) => {
   const { token, loading } = useContext(AuthContext);
   if (loading) return <div className="min-h-screen flex text-xl justify-center items-center">Loading...</div>;
@@ -39,12 +40,13 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        
+
         {/* Protected Routes */}
-        <Route path="/" element={<PrivateRoute><DemoLesson /></PrivateRoute>} /> 
-        <Route path="/learn/:id" element={<PrivateRoute><Details1 /></PrivateRoute>} /> 
-        <Route path="/learn/topic/:topic" element={<PrivateRoute><Topics /></PrivateRoute>} /> 
-        <Route path="/report" element={<PrivateRoute><Report /></PrivateRoute>} /> 
+        <Route path="/" element={<PrivateRoute><DemoLesson /></PrivateRoute>} />
+        <Route path="/learn/:id" element={<PrivateRoute><Details1 /></PrivateRoute>} />
+        <Route path="/learn/topic/:topic" element={<PrivateRoute><Topics /></PrivateRoute>} />
+        <Route path="/report" element={<PrivateRoute><Report /></PrivateRoute>} />
+        {/* <Route path="/CodeEditor" element={<PrivateRoute><CodeEditor /></PrivateRoute>} /> */}
       </Routes>
       <Footer />
     </div>
